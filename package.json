@@ -1,0 +1,21 @@
+{
+  "name": "captions-v03",
+  "version": "0.3.0",
+  "private": false,
+  "description": "After Effects CEP panel for local Whisper captions with editable text layers and style presets.",
+  "scripts": {
+    "build:helper": "bash installer/build_helper.sh",
+    "check": "node scripts/check-public-ready.mjs",
+    "package": "bash scripts/package-release.sh"
+  },
+  "keywords": [
+    "after-effects",
+    "captions",
+    "whisper",
+    "whisperx",
+    "cep",
+    "subtitles"
+  ],
+  "author": "Ivan Antonio",
+  "license": "MIT"
+}

@@ -1,0 +1,15 @@
+.DS_Store
+releases/
+*.log
+.env
+.env.*
+helper/.venv/
+helper/__pycache__/
+*.srt
+*.vtt
+*.wav
+*.mp3
+*.m4a
+*.mp4
+*.mov
+!panel/CaptionsV03/mogrts/**/*.mp4

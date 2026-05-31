@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captions v03</title>
+  <link rel="stylesheet" href="./styles.css?v=20260413-preview1">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand-block">
+        <div class="brand-kicker">AE Panel</div>
+        <div class="brand-title">Captions v03</div>
+      </div>
+      <div class="header-tools">
+        <div id="helperStatus" class="status-chip status-warn">Helper offline</div>
+        <button id="openSettings" class="tool-button" type="button">Settings</button>
+      </div>
+    </header>
+
+    <nav class="main-tabs">
+      <button class="main-tab is-active" data-tab="transcribe" type="button">Transcribe</button>
+      <button class="main-tab" data-tab="editor" type="button">Text Editor</button>
+      <button class="main-tab" data-tab="build" type="button">Style</button>
+    </nav>
+
+    <main class="workspace">
+      <section class="panel is-active" data-panel="transcribe">
+        <div class="surface-card compact-grid">
+          <label class="field field-tight">
+            <span>Model</span>
+            <select id="modelSelect"></select>
+          </label>
+
+          <label class="field field-tight">
+            <span>Language</span>
+            <input id="language" type="text" value="auto" placeholder="auto, es, en">
+          </label>
+        </div>
+
+        <div class="surface-card">
+          <div class="card-head">
+            <div class="section-title">Timing</div>
+            <div id="timingHint" class="micro-copy">Fast uses whisper.cpp. Precision adds audio alignment with WhisperX.</div>
+          </div>
+
+          <div class="segmented compact-segmented">
+            <label class="segment">
+              <input type="radio" name="timingMode" value="fast" checked>
+              <span>Fast</span>
+            </label>
+            <label class="segment">
+              <input id="precisionTimingMode" type="radio" name="timingMode" value="precision">
+              <span>Precision</span>
+            </label>
+          </div>
+
+          <div id="precisionStatus" class="micro-copy micro-copy-left">Precision backend not checked yet.</div>
+        </div>
+
+        <div class="action-dock">
+          <button id="runTranscription" class="primary-button action-button" type="button">Transcribe</button>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="editor">
+        <div class="surface-card" id="draftModeCard">
+          <div class="card-head">
+            <div class="section-title">Draft Split</div>
+            <div id="modeHint" class="micro-copy">Three words per layer, fast pace.</div>
+          </div>
+
+          <div class="mode-list">
+            <button class="mode-card" data-mode="one" type="button">
+              <span class="mode-icon bars-1">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>One Word</strong>
+                <small>Initial split only. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+
+            <button class="mode-card" data-mode="two" type="button">
+              <span class="mode-icon bars-2">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>Two Words</strong>
+                <small>Initial split only. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+
+            <button class="mode-card is-active" data-mode="three" type="button">
+              <span class="mode-icon bars-3">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>Three Words</strong>
+                <small>Initial split only. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+
+            <button class="mode-card" data-mode="smart" type="button">
+              <span class="mode-icon bars-smart">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>Smart Parts</strong>
+                <small>AI draft grouping. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+
+            <button class="mode-card" data-mode="custom" type="button">
+              <span class="mode-icon bars-custom">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>Custom Count</strong>
+                <small>Initial split only. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+
+            <button class="mode-card" data-mode="sentences" type="button">
+              <span class="mode-icon bars-sentences">
+                <span></span><span></span><span></span>
+              </span>
+              <span class="mode-copy">
+                <strong>Sentences</strong>
+                <small>Initial split only. Editing turns on Manual Mode.</small>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div id="customWordsWrap" class="surface-card is-hidden">
+          <label class="field field-tight">
+            <span>Custom Words Per Layer</span>
+            <input id="customWordsPerLayer" type="number" min="1" max="20" value="6">
+          </label>
+        </div>
+
+        <div class="surface-card transcript-card">
+          <div class="card-head">
+            <div class="section-title">Transcript</div>
+            <div id="editorStats" class="micro-copy">Run Transcribe once, then edit the rhythm here.</div>
+          </div>
+
+          <div id="manualModeBanner" class="manual-mode-banner is-hidden">Manual Mode active. Burn Text will use your line breaks, not One/Two/Three.</div>
+
+          <div class="transcript-editor-wrap">
+            <pre id="timestampGutter" class="timestamp-gutter" aria-hidden="true"></pre>
+            <textarea id="transcriptEditor" class="transcript-editor" spellcheck="false" placeholder="Transcript will appear here with word timestamps preserved internally. Break lines manually to control layer timing."></textarea>
+          </div>
+
+          <div class="editor-actions">
+            <button id="reloadTranscriptEditor" class="ghost-button compact-button" type="button">Reload Analysis</button>
+            <button id="syncActiveCompText" class="ghost-button compact-button" type="button">Sync Active Comp</button>
+            <span class="micro-copy micro-copy-left">Each line becomes one AE text layer. Start time comes from the first word in that line.</span>
+          </div>
+        </div>
+
+        <div class="action-dock">
+          <button id="continueToStyle" class="primary-button action-button alt-action" type="button">Continue to Style</button>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="build">
+        <div class="surface-card style-entry-card">
+          <div class="card-head">
+            <div class="section-title">Styles</div>
+            <div id="presetHint" class="micro-copy">Pick a visual preset before creating subtitles.</div>
+          </div>
+
+          <select id="presetSelect" class="is-hidden" aria-hidden="true"></select>
+
+          <button id="openStyles" class="style-summary" type="button">
+            <span class="style-mini-preview">
+              <span id="selectedStyleSample">ORIGINAL TEXT</span>
+            </span>
+            <span class="style-summary-copy">
+              <strong id="selectedStyleName">Basic / No Style</strong>
+              <small id="selectedStyleMeta">Original clean text. No motion, no highlight.</small>
+            </span>
+            <span class="style-summary-action">Styles</span>
+          </button>
+        </div>
+
+        <div class="surface-card">
+          <div class="card-head">
+            <div class="section-title">Target</div>
+            <div class="micro-copy">Choose where the subtitle layers will be created.</div>
+          </div>
+
+          <div class="segmented compact-segmented">
+            <label class="segment">
+              <input type="radio" name="destinationType" value="active-comp" checked>
+              <span>Active Comp</span>
+            </label>
+            <label class="segment">
+              <input type="radio" name="destinationType" value="new-comp">
+              <span>New Comp</span>
+            </label>
+          </div>
+
+          <label id="compositionNameWrap" class="field field-tight is-hidden">
+            <span>New Comp Name</span>
+            <input id="compositionName" type="text" placeholder="Optional">
+          </label>
+        </div>
+
+        <div class="surface-card">
+          <label class="toggle-row" for="legatoToggle">
+            <span class="toggle-copy">
+              <strong>Legato</strong>
+              <small>Extend each subtitle layer until the next one starts.</small>
+            </span>
+            <span class="switch">
+              <input id="legatoToggle" type="checkbox" checked>
+              <span class="switch-ui"></span>
+            </span>
+          </label>
+        </div>
+
+        <div class="surface-card">
+          <label class="toggle-row" for="exportSeparatedToggle">
+            <span class="toggle-copy">
+              <strong>Export separated JSON</strong>
+              <small>Create [name]_separated.captions.json for ReelScript.</small>
+            </span>
+            <span class="switch">
+              <input id="exportSeparatedToggle" type="checkbox" checked>
+              <span class="switch-ui"></span>
+            </span>
+          </label>
+        </div>
+
+        <div class="action-dock">
+          <button id="importCaptions" class="primary-button action-button alt-action" type="button">Burn Text</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="progress-dock" aria-hidden="true">
+      <div class="progress-track">
+        <div id="jobProgress" class="progress-line"></div>
+      </div>
+    </footer>
+
+    <div id="stylesModal" class="styles-modal is-hidden">
+      <div id="closeStylesBackdrop" class="styles-backdrop"></div>
+      <section class="styles-panel" aria-label="Subtitle styles">
+        <div class="card-head styles-head">
+          <div>
+            <div class="section-title">Styles</div>
+            <div class="micro-copy micro-copy-left">Choose a graphical preset, then create captions as usual.</div>
+          </div>
+          <button id="closeStyles" class="ghost-button compact-button" type="button">Done</button>
+        </div>
+
+        <div class="style-preview-stage">
+          <img id="stylePreviewImage" class="style-preview-media is-hidden" alt="Style preview">
+          <video id="stylePreviewVideo" class="style-preview-media is-hidden" muted loop autoplay playsinline></video>
+          <div id="stylePreviewText" class="style-preview-text">ORIGINAL TEXT</div>
+          <div id="stylePreviewBadges" class="style-badges">
+            <span>Basic</span>
+            <span>No Motion</span>
+            <span>No Highlight</span>
+          </div>
+        </div>
+
+        <div class="style-actions">
+          <button id="savePresetFromLayer" class="ghost-button compact-button" type="button">Save Layer</button>
+          <button id="importPreset" class="ghost-button compact-button" type="button">Import</button>
+          <button id="exportPreset" class="ghost-button compact-button" type="button">Export</button>
+          <button id="deletePreset" class="ghost-button compact-button danger-button" type="button">Delete</button>
+        </div>
+
+        <div id="styleGrid" class="style-grid"></div>
+      </section>
+    </div>
+
+    <div id="settingsModal" class="settings-modal is-hidden">
+      <div id="closeSettingsBackdrop" class="settings-backdrop"></div>
+      <section class="settings-panel" aria-label="Transcription settings">
+        <div class="card-head settings-head">
+          <div>
+            <div class="section-title">Settings</div>
+            <div id="outputHint" class="micro-copy micro-copy-left">Auto output uses the saved project folder.</div>
+          </div>
+          <button id="closeSettings" class="ghost-button compact-button" type="button">Done</button>
+        </div>
+
+        <div class="surface-card settings-card">
+          <div class="segmented compact-segmented">
+            <label class="segment">
+              <input type="radio" name="sourceType" value="comp" checked>
+              <span>Active Comp</span>
+            </label>
+            <label class="segment">
+              <input type="radio" name="sourceType" value="file">
+              <span>File</span>
+            </label>
+          </div>
+
+          <label id="mediaField" class="field is-hidden">
+            <span>Media</span>
+            <div class="inline-field">
+              <input id="videoPath" type="text" placeholder="/path/to/video.mp4">
+              <button id="browseVideo" class="ghost-button compact-button" type="button">Choose</button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Output</span>
+            <div class="inline-field">
+              <input id="outputDir" type="text" placeholder="Auto: saved AE project folder">
+              <button id="browseOutput" class="ghost-button compact-button" type="button">Choose</button>
+            </div>
+          </label>
+
+          <label class="field">
+            <span>Captions JSON</span>
+            <div class="inline-field">
+              <input id="captionsJsonPath" type="text" placeholder="/path/to/file.captions.json">
+              <button id="browseCaptionsJson" class="ghost-button compact-button" type="button">Choose</button>
+            </div>
+          </label>
+
+          <div class="settings-divider"></div>
+
+          <label class="toggle-row" for="settingsExportSeparatedToggle">
+            <span class="toggle-copy">
+              <strong>Export separated JSON</strong>
+              <small>Keep this enabled by default, or export it manually after creating subtitles.</small>
+            </span>
+            <span class="switch">
+              <input id="settingsExportSeparatedToggle" type="checkbox" checked>
+              <span class="switch-ui"></span>
+            </span>
+          </label>
+
+          <div class="settings-actions">
+            <button id="exportSeparatedNow" class="ghost-button compact-button" type="button">Export Separated Now</button>
+          </div>
+
+          <div class="settings-divider"></div>
+
+          <label class="field field-tight">
+            <span>AI Provider</span>
+            <select id="aiProvider">
+              <option value="ollama">Ollama</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>AI Model</span>
+            <div class="inline-field">
+              <select id="aiModel"></select>
+              <button id="refreshAiModels" class="ghost-button compact-button" type="button">Refresh</button>
+            </div>
+            <small id="aiModelStatus" class="micro-copy micro-copy-left">AI models not checked yet.</small>
+          </label>
+
+          <div class="settings-actions">
+            <button id="clearCache" class="ghost-button compact-button danger-button" type="button">Clear Cache</button>
+            <button id="refreshHelper" class="ghost-button compact-button" type="button">Refresh Helper</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="./CSInterface.js"></script>
+  <script src="./app.js?v=20260413-preview1"></script>
+</body>
+</html>

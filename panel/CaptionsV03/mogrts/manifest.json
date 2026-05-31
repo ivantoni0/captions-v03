@@ -1,0 +1,100 @@
+{
+  "presets": [
+    {
+      "id": "builtin.mogrt.wahla_01",
+      "name": "Wahla VFX 01",
+      "sourceMogrt": "Text Preset - Wahla VFX (1).mogrt",
+      "templatePath": "mogrts/wahla_01/template.aep",
+      "thumbPath": "mogrts/wahla_01/thumb.png",
+      "previewPath": "mogrts/wahla_01/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_02",
+      "name": "Wahla VFX 02",
+      "sourceMogrt": "Text Preset - Wahla VFX (2).mogrt",
+      "templatePath": "mogrts/wahla_02/template.aep",
+      "thumbPath": "mogrts/wahla_02/thumb.png",
+      "previewPath": "mogrts/wahla_02/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_03",
+      "name": "Wahla VFX 03",
+      "sourceMogrt": "Text Preset - Wahla VFX (3).mogrt",
+      "templatePath": "mogrts/wahla_03/template.aep",
+      "thumbPath": "mogrts/wahla_03/thumb.png",
+      "previewPath": "mogrts/wahla_03/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_04",
+      "name": "Wahla VFX 04",
+      "sourceMogrt": "Text Preset - Wahla VFX (4).mogrt",
+      "templatePath": "mogrts/wahla_04/template.aep",
+      "thumbPath": "mogrts/wahla_04/thumb.png",
+      "previewPath": "mogrts/wahla_04/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_05",
+      "name": "Wahla VFX 05",
+      "sourceMogrt": "Text Preset - Wahla VFX (5).mogrt",
+      "templatePath": "mogrts/wahla_05/template.aep",
+      "thumbPath": "mogrts/wahla_05/thumb.png",
+      "previewPath": "mogrts/wahla_05/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_06",
+      "name": "Wahla VFX 06",
+      "sourceMogrt": "Text Preset - Wahla VFX (6).mogrt",
+      "templatePath": "mogrts/wahla_06/template.aep",
+      "thumbPath": "mogrts/wahla_06/thumb.png",
+      "previewPath": "mogrts/wahla_06/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_07",
+      "name": "Wahla VFX 07",
+      "sourceMogrt": "Text Preset - Wahla VFX (7).mogrt",
+      "templatePath": "mogrts/wahla_07/template.aep",
+      "thumbPath": "mogrts/wahla_07/thumb.png",
+      "previewPath": "mogrts/wahla_07/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_08",
+      "name": "Wahla VFX 08",
+      "sourceMogrt": "Text Preset - Wahla VFX (8).mogrt",
+      "templatePath": "mogrts/wahla_08/template.aep",
+      "thumbPath": "mogrts/wahla_08/thumb.png",
+      "previewPath": "mogrts/wahla_08/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_09",
+      "name": "Wahla VFX 09",
+      "sourceMogrt": "Text Preset - Wahla VFX (9).mogrt",
+      "templatePath": "mogrts/wahla_09/template.aep",
+      "thumbPath": "mogrts/wahla_09/thumb.png",
+      "previewPath": "mogrts/wahla_09/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_10",
+      "name": "Wahla VFX 10",
+      "sourceMogrt": "Text Preset - Wahla VFX (10).mogrt",
+      "templatePath": "mogrts/wahla_10/template.aep",
+      "thumbPath": "mogrts/wahla_10/thumb.png",
+      "previewPath": "mogrts/wahla_10/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.wahla_11",
+      "name": "Wahla VFX 11",
+      "sourceMogrt": "Text Preset - Wahla VFX (11).mogrt",
+      "templatePath": "mogrts/wahla_11/template.aep",
+      "thumbPath": "mogrts/wahla_11/thumb.png",
+      "previewPath": "mogrts/wahla_11/preview.gif"
+    },
+    {
+      "id": "builtin.mogrt.tiktok_caps",
+      "name": "TikTokCaps",
+      "sourceMogrt": "TikTokCaps.mogrt",
+      "templatePath": "mogrts/tiktok_caps/template.aep",
+      "thumbPath": "mogrts/tiktok_caps/thumb.png",
+      "previewPath": "mogrts/tiktok_caps/preview.gif"
+    }
+  ]
+}
